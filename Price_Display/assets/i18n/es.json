@@ -1,0 +1,18 @@
+{
+  "idle_title":         "Escanea un producto",
+  "idle_subtitle":      "Apunta la pistola lectora al código de barras",
+  "loading_label":      "Consultando precio de",
+  "notfound_title":     "Producto no encontrado",
+  "error_title":        "Error de conexión",
+  "manual_hint":        "Haz clic para introducir el código manualmente",
+  "manual_placeholder": "Introduce el código de barras…",
+  "status_idle":        "Esperando escaneo…",
+  "status_loading":     "Consultando",
+  "status_result":      "Precio de",
+  "status_notfound":    "Código no encontrado:",
+  "status_manual":      "Modo manual activo",
+  "status_ready":       "Listo",
+  "error_timeout":      "Tiempo de espera agotado. Verifica la conexión.",
+  "error_connection":   "No se pudo conectar con la API.",
+  "error_server":       "Error del servidor"
+}

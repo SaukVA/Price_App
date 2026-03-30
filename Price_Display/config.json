@@ -1,0 +1,29 @@
+{
+  "app": {
+    "title": "Price Selector",
+    "language": "es",
+    "currency_symbol": "€",
+    "currency_position": "after"
+  },
+  "api": {
+    "base_url": "",
+    "endpoint": "/api/prices",
+    "timeout_ms": 5000
+  },
+  "display": {
+    "display_time_ms": 10000,
+    "show_last_updated": true
+  },
+  "theme": {
+    "primary_color": "#1a1a2e",
+    "accent_color": "#e94560",
+    "background_color": "#16213e",
+    "text_color": "#ffffff",
+    "font_family": "Inter, sans-serif"
+  },
+  "logo": {
+    "enabled": false,
+    "path": "assets/img/logo.png",
+    "width": "50px"
+  }
+}

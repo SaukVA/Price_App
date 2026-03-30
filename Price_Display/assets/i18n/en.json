@@ -1,0 +1,18 @@
+{
+  "idle_title":         "Scan a product",
+  "idle_subtitle":      "Point the barcode reader at the product",
+  "loading_label":      "Looking up price for",
+  "notfound_title":     "Product not found",
+  "error_title":        "Connection error",
+  "manual_hint":        "Click to enter the barcode manually",
+  "manual_placeholder": "Enter barcode…",
+  "status_idle":        "Waiting for scan…",
+  "status_loading":     "Looking up",
+  "status_result":      "Price for",
+  "status_notfound":    "Barcode not found:",
+  "status_manual":      "Manual mode active",
+  "status_ready":       "Ready",
+  "error_timeout":      "Request timed out. Check the connection.",
+  "error_connection":   "Could not connect to the API.",
+  "error_server":       "Server error"
+}

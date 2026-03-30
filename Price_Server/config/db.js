@@ -1,0 +1,56 @@
+'use strict';
+
+// ================================================================
+//  db.js  —  Conexión a Firebird (servidor o embebido)
+//
+//  Modo servidor  → define DB_HOST, DB_PORT, DB_DATABASE en .env
+//  Modo embebido  → define solo DB_DATABASE en .env y deja
+//                   DB_HOST vacío o sin definir
+// ================================================================
+
+const Firebird = require('node-firebird');
+
+const options = {
+  host:     process.env.DB_HOST     || null,
+  port:     process.env.DB_PORT     || 3050,
+  database: process.env.DB_DATABASE,
+  user:     process.env.DB_USER     || 'SYSDBA',
+  password: process.env.DB_PASSWORD || 'masterkey',
+};
+
+/**
+ * Ejecuta una query con parámetros y devuelve las filas como array.
+ * @param {string} sql
+ * @param {Array}  params
+ * @returns {Promise<Array>}
+ */
+function query(sql, params = []) {
+  return new Promise((resolve, reject) => {
+    Firebird.attach(options, (err, db) => {
+      if (err) return reject(err);
+
+      db.query(sql, params, (err, result) => {
+        db.detach();
+        if (err) return reject(err);
+        resolve(result || []);
+      });
+    });
+  });
+}
+
+/**
+ * Comprueba que la conexión a la BD funciona.
+ * Se usa en server.js antes de arrancar el servidor.
+ * @returns {Promise<void>}
+ */
+function testConnection() {
+  return new Promise((resolve, reject) => {
+    Firebird.attach(options, (err, db) => {
+      if (err) return reject(err);
+      db.detach();
+      resolve();
+    });
+  });
+}
+
+module.exports = { query, testConnection };

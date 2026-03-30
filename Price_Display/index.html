@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Price Display</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div id="app">
+
+    <header id="header">
+      <div class="logo" id="logo-container"></div>
+      <div class="title" id="app-title" data-i18n-title="manual_hint">Price Display</div>
+      <div id="manual-input-wrapper" class="manual-input-wrapper hidden">
+        <input type="text" id="manual-input" class="manual-input" data-i18n-placeholder="manual_placeholder" autocomplete="off" spellcheck="false" />
+        <button id="manual-submit" class="manual-submit" title="&#9654;">&#9654;</button>
+        <button id="manual-cancel" class="manual-cancel" title="&#x2715;">&#x2715;</button>
+      </div>
+      <div class="clock" id="clock">--:--:--</div>
+    </header>
+
+    <main id="main">
+
+      <!-- Espera -->
+      <div id="screen-idle" class="screen active">
+        <div class="idle-icon">▊▌▌▌▌ ▌▌▌▌▊</div>
+        <div class="idle-title" data-i18n="idle_title">Escanea un producto</div>
+        <div class="idle-subtitle" data-i18n="idle_subtitle">Apunta la pistola lectora al código de barras</div>
+      </div>
+
+      <!-- Cargando -->
+      <div id="screen-loading" class="screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-label" data-i18n="loading_label">Consultando precio de</div>
+        <div class="loading-code" id="loading-barcode">—</div>
+      </div>
+
+      <!-- Resultado -->
+      <div id="screen-result" class="screen">
+        <div class="result-card">
+          <div class="result-name" id="result-name">—</div>
+          <div class="result-barcode-label" id="result-barcode"></div>
+          <div class="result-price" id="result-price">—</div>
+          <div class="countdown-bar-track">
+            <div id="countdown-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No encontrado -->
+      <div id="screen-notfound" class="screen">
+        <div class="feedback-card feedback-card--warning">
+          <div class="feedback-icon">?</div>
+          <div class="feedback-title" data-i18n="notfound_title">Producto no encontrado</div>
+          <div class="feedback-code" id="notfound-barcode"></div>
+          <div class="countdown-bar-track">
+            <div id="countdown-bar-notfound"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div id="screen-error" class="screen">
+        <div class="feedback-card feedback-card--error">
+          <div class="feedback-icon">!</div>
+          <div class="feedback-title" data-i18n="error_title">Error de conexión</div>
+          <div class="feedback-msg" id="error-msg"></div>
+          <div class="countdown-bar-track">
+            <div id="countdown-bar-error"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer id="footer">
+      <div>
+        <span id="status-dot" class="status-dot ok"></span>
+        <span id="status-label">—</span>
+      </div>
+      <div id="footer-center"></div>
+      <div id="footer-right"></div>
+    </footer>
+
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
