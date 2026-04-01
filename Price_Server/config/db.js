@@ -9,11 +9,17 @@
 // ================================================================
 
 const Firebird = require('node-firebird');
+const path = require('path');
+
+const getDatabasePath = (dbPath) => {
+  if (!dbPath) return null;
+  return path.isAbsolute(dbPath) ? dbPath : path.resolve(process.cwd(), dbPath);
+};
 
 const options = {
   host:     process.env.DB_HOST     || null,
   port:     process.env.DB_PORT     || 3050,
-  database: process.env.DB_DATABASE,
+  database: getDatabasePath(process.env.DB_DATABASE),
   user:     process.env.DB_USER     || 'SYSDBA',
   password: process.env.DB_PASSWORD || 'masterkey',
 };
