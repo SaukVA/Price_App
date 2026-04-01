@@ -1,0 +1,15 @@
+
+services:
+
+  # ── Página Web (Price Display) ─────────────────────────────
+  price_display:
+    build:
+      context: ./Price_Display
+    container_name: price_display
+    environment:
+      API_BASE_URL: ${API_BASE_URL}
+    ports:
+      - "${DISPLAY_PORT:-80}:80"
+    depends_on:
+      - price_server
+    restart: unless-stopped
