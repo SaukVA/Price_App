@@ -13,12 +13,15 @@ const path = require('path');
 
 const getDatabasePath = (dbPath) => {
   if (!dbPath) return null;
+  // Conexión remota: la ruta es del servidor, se pasa tal cual
+  if (process.env.DB_HOST) return dbPath;
+  // Modo embebido: resuelve relativa al cwd del proceso
   return path.isAbsolute(dbPath) ? dbPath : path.resolve(process.cwd(), dbPath);
 };
 
 const options = {
   host:     process.env.DB_HOST     || null,
-  port:     process.env.DB_PORT     || 3050,
+  port:     parseInt(process.env.DB_PORT) || 3050,
   database: getDatabasePath(process.env.DB_DATABASE),
   user:     process.env.DB_USER     || 'SYSDBA',
   password: process.env.DB_PASSWORD || 'masterkey',
