@@ -12,7 +12,7 @@ services:
       ISC_PASSWORD: ${DB_PASSWORD:-masterkey}
       FIREBIRD_DATABASE: prices.gdb
     volumes:
-      - ${DB_FILE_PATH}:/firebird/data/prices.gdb
+      - ${DB_FILE_PATH:-./placeholder.gdb}:/firebird/data/prices.gdb
     restart: unless-stopped
 
   # ── API (Price Server) ─────────────────────────────────────────
