@@ -1,13 +1,38 @@
 
 services:
 
-  # ── Página Web (Price Display) ─────────────────────────────
+  # ── Base de datos Firebird 2.5 (opcional) ─────────────────────
+  # Solo se levanta si COMPOSE_PROFILES=firebird en el .env
+  # Útil cuando no hay un servidor Firebird corriendo en el host
+  firebird:
+    image: jacobalberty/firebird:2.5-sc
+    container_name: firebird
+    profiles: [firebird]
+    environment:
+      ISC_PASSWORD: ${DB_PASSWORD:-masterkey}
+      FIREBIRD_DATABASE: prices.gdb
+    volumes:
+      - ${DB_FILE_PATH}:/firebird/data/prices.gdb
+    restart: unless-stopped
+
+  # ── API (Price Server) ─────────────────────────────────────────
+  price_server:
+    build:
+      context: ./Price_Server
+    container_name: price_server
+    env_file:
+      - .env
+    ports:
+      - "${SERVER_PORT:-3000}:3000"
+    restart: unless-stopped
+
+  # ── Página Web (Price Display) ─────────────────────────────────
   price_display:
     build:
       context: ./Price_Display
     container_name: price_display
     environment:
-      API_BASE_URL: ${API_BASE_URL}
+      API_BASE_URL: ${API_BASE_URL:-http://price_server:3000}
     ports:
       - "${DISPLAY_PORT:-80}:80"
     depends_on:
