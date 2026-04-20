@@ -1,2 +1,9 @@
+# Entorno y secretos
+.env
 *.env
+
+# Dependencias
 */node_modules
+
+# Herramientas locales
+.claude/

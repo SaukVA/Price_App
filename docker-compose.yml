@@ -32,7 +32,7 @@ services:
       context: ./Price_Display
     container_name: price_display
     environment:
-      API_BASE_URL: ${API_BASE_URL:-http://price_server:3000}
+      API_BASE_URL: ""
     ports:
       - "${DISPLAY_PORT:-80}:80"
     depends_on:
