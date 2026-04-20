@@ -1,7 +1,8 @@
 # =================================================================
 #  Price Display — Dockerfile
-#  Sirve la web estática con nginx e inyecta la URL de la API
-#  en config.json a través de la variable API_BASE_URL del .env
+#  Sirve la web estática con nginx.
+#  Las peticiones /api/ se redirigen internamente a price_server,
+#  por lo que la web funciona desde cualquier IP sin configuración.
 # =================================================================
 
 FROM nginx:alpine
@@ -9,7 +10,10 @@ FROM nginx:alpine
 # Copia todos los archivos estáticos al directorio de nginx
 COPY . /usr/share/nginx/html
 
-# Copia el script de entrada que inyecta la URL de la API
+# Sustituye la configuración por defecto de nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copia el script de entrada
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN sed -i 's/\r$//' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
 

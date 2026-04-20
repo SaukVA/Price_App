@@ -44,7 +44,7 @@ async function loadConfig() {
 function getDefaultConfig() {
   return {
     app:     { title: 'Price Display', language: 'es', currency_symbol: '€', currency_position: 'after' },
-    api:     { base_url: 'http://localhost:3000', endpoint: '/api/prices', timeout_ms: 5000 },
+    api:     { base_url: '', endpoint: '/api/prices', timeout_ms: 5000 },
     display: { display_time_ms: 8000 },
     theme:   { primary_color: '#1a1a2e', accent_color: '#e94560', background_color: '#16213e', text_color: '#ffffff' },
     logo:    { enabled: false }
@@ -224,7 +224,7 @@ async function lookupBarcode(barcode) {
   clearTimeout(resetTimer);
   setStateLoading(barcode);
 
-  const base     = config.api?.base_url   || 'http://localhost:3000';
+  const base     = config.api?.base_url   ?? '';
   const endpoint = config.api?.endpoint   || '/api/prices';
   const timeout  = config.api?.timeout_ms || 5000;
   const url      = `${base}${endpoint}/${encodeURIComponent(barcode)}`;
