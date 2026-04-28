@@ -1,7 +1,7 @@
 'use strict';
 
 // ================================================================
-//  db.js  —  Conexión a Firebird (servidor o embebido)
+//  db.js  —  Conexión a Firebird con pool de conexiones
 //
 //  Modo servidor  → define DB_HOST, DB_PORT, DB_DATABASE en .env
 //  Modo embebido  → define solo DB_DATABASE en .env y deja
@@ -9,7 +9,7 @@
 // ================================================================
 
 const Firebird = require('node-firebird');
-const path = require('path');
+const path     = require('path');
 
 const getDatabasePath = (dbPath) => {
   if (!dbPath) return null;
@@ -27,19 +27,28 @@ const options = {
   password: process.env.DB_PASSWORD || 'masterkey',
 };
 
+// Tamaño del pool configurable; 5 conexiones es más que suficiente
+// para un sistema de consulta de precios
+const POOL_SIZE = parseInt(process.env.DB_POOL_SIZE) || 5;
+
+const pool = Firebird.pool(POOL_SIZE, options);
+
 /**
  * Ejecuta una query con parámetros y devuelve las filas como array.
+ * Obtiene una conexión del pool y la devuelve al terminar.
  * @param {string} sql
  * @param {Array}  params
  * @returns {Promise<Array>}
  */
 function query(sql, params = []) {
   return new Promise((resolve, reject) => {
-    Firebird.attach(options, (err, db) => {
+    pool.get((err, db) => {
       if (err) return reject(err);
 
       db.query(sql, params, (err, result) => {
+        // Siempre devolver la conexión al pool, haya error o no
         db.detach();
+
         if (err) return reject(err);
         resolve(result || []);
       });
@@ -48,13 +57,13 @@ function query(sql, params = []) {
 }
 
 /**
- * Comprueba que la conexión a la BD funciona.
- * Se usa en server.js antes de arrancar el servidor.
+ * Comprueba que la conexión a la BD funciona obteniendo y
+ * devolviendo una conexión del pool.
  * @returns {Promise<void>}
  */
 function testConnection() {
   return new Promise((resolve, reject) => {
-    Firebird.attach(options, (err, db) => {
+    pool.get((err, db) => {
       if (err) return reject(err);
       db.detach();
       resolve();
